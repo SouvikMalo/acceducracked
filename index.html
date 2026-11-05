@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pratistha XI 1.0</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Source+Serif+4:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#eef3f8; --grid:#d3dde9; --ink:#14213d; --muted:#51607a;
+  --card:#ffffff; --line:#c3cfdf; --accent:#1f4fd8; --accent-soft:#e3ebff; --warm:#f2b705;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1626; --grid:#1b2740; --ink:#e8eefb; --muted:#9bacc8;
+    --card:#17213a; --line:#2c3b5c; --accent:#7ea2ff; --accent-soft:#223157; --warm:#f2c94c;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1626; --grid:#1b2740; --ink:#e8eefb; --muted:#9bacc8;
+  --card:#17213a; --line:#2c3b5c; --accent:#7ea2ff; --accent-soft:#223157; --warm:#f2c94c;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0; min-height:100vh; color:var(--ink); background-color:var(--bg);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px;
+  font-family:"Source Serif 4",Georgia,"Times New Roman",serif; font-size:18px; line-height:1.55;
+}
+main{max-width:760px; margin:0 auto; padding:48px 20px 80px}
+h1,h2,.label{font-family:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif}
+header{margin-bottom:28px}
+h1{font-size:clamp(2.2rem,7vw,3.4rem); line-height:1.05; margin:0 0 8px; font-weight:700; letter-spacing:-.02em}
+.sub{color:var(--muted); margin:0}
+
+/* Container: the single large folder */
+.container{
+  background:var(--card); border:2px solid var(--ink); border-radius:6px 22px 22px 22px;
+  position:relative; margin-top:26px; box-shadow:6px 6px 0 var(--ink);
+}
+.container::before{
+  content:"Pratishtha XI 1.0"; position:absolute; top:-26px; left:-2px; padding:3px 16px 2px;
+  background:var(--warm); color:#14213d; border:2px solid var(--ink); border-bottom:none;
+  border-radius:10px 10px 0 0; font:700 .85rem "Bricolage Grotesque",Arial,sans-serif;
+}
+.container>.inner{padding:10px}
+
+details{border-radius:12px}
+details+details{margin-top:6px}
+summary{
+  list-style:none; cursor:pointer; display:flex; align-items:center; gap:12px;
+  padding:14px 14px; border-radius:12px; font:700 1.15rem "Bricolage Grotesque",Arial,sans-serif;
+}
+summary::-webkit-details-marker{display:none}
+summary:hover{background:var(--accent-soft)}
+summary:focus-visible,a:focus-visible,button:focus-visible{outline:3px solid var(--accent); outline-offset:2px}
+.chev{width:10px;height:10px;border-right:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:rotate(-45deg);transition:transform .18s;flex:none;margin:0 4px}
+details[open]>summary>.chev{transform:rotate(45deg)}
+.count{margin-left:auto; font:500 .85rem "Bricolage Grotesque",Arial,sans-serif; color:var(--muted)}
+.ico{flex:none}
+.list{margin:2px 0 8px 22px; padding-left:14px; border-left:2px dashed var(--line)}
+.item{
+  display:flex; align-items:center; gap:12px; padding:12px 12px; margin:4px 0;
+  text-decoration:none; color:var(--ink); border:1.5px solid var(--line); border-radius:10px; background:var(--bg);
+}
+.item:hover{border-color:var(--accent); background:var(--accent-soft)}
+.item .t{font-weight:600}
+.item .d{display:block; font-size:.85rem; color:var(--muted)}
+.tag{margin-left:auto; flex:none; font:700 .72rem "Bricolage Grotesque",Arial,sans-serif; padding:3px 9px; border-radius:99px; background:var(--accent); color:#fff}
+:root[data-theme="dark"] .tag{color:#0f1626}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tag{color:#0f1626}}
+#latest{margin:30px 0 44px}
+.latest-h{display:flex; align-items:center; gap:8px; margin:0 0 12px; font:700 .85rem "Bricolage Grotesque",Arial,sans-serif; text-transform:uppercase; letter-spacing:.09em}
+.latest-h .dot{width:11px; height:11px; border-radius:50%; background:var(--warm); border:2px solid var(--ink)}
+.latest-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px}
+.vcard{display:block; text-decoration:none; color:var(--ink); background:var(--card); border:2px solid var(--ink); border-radius:14px; box-shadow:3px 3px 0 var(--ink); overflow:hidden; transition:transform .15s, box-shadow .15s}
+.vcard:hover{transform:translate(-2px,-2px); box-shadow:5px 5px 0 var(--ink)}
+.thumb{position:relative; display:block; aspect-ratio:16/9; background:var(--ink)}
+.thumb img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+.play{position:absolute; left:50%; top:50%; width:52px; height:52px; margin:-26px 0 0 -26px; border-radius:50%; background:rgba(20,33,61,.82); border:2px solid #fff}
+.play::after{content:""; position:absolute; left:20px; top:14px; border-left:16px solid #fff; border-top:10px solid transparent; border-bottom:10px solid transparent}
+.vt{display:block; padding:10px 14px 12px}
+.vt .t{display:block; font-weight:600}
+.vt .d{display:block; font-size:.85rem; color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.vcard{transition:none}}
+.empty{color:var(--muted); padding:8px 12px; font-style:italic}
+footer{margin-top:40px; color:var(--muted); font-size:.9rem}
+@media (prefers-reduced-motion:reduce){.chev{transition:none}}
+@media (max-width:480px){body{font-size:17px} .list{margin-left:10px}}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Pratishtha XI 1.0</h1>
+    <p class="sub">Class XI lectures and practice sheets, sorted by chapter.</p>
+  </header>
+
+  <section id="latest" aria-label="Latest additions"></section>
+
+  <div class="container"><div class="inner" id="root"></div></div>
+
+  <footer>Tap a chapter to open it. Links open in a new tab.</footer>
+</main>
+
+<script>
+/* ===== EDIT HERE: replace the "#" links with your real links =====
+   type "video" -> YouTube link
+   type "pdf" or "image" -> Google Drive share link ("Anyone with the link can view") */
+/* LATEST BAR (videos only): add  latest: 1  (or 2, 3 ...) to any VIDEO item to show
+   it, with its YouTube thumbnail, in the "Latest" bar at the top. Lower number = first.
+   Remove it to hide. LATEST_MAX is how many cards the bar can show. */
+var LATEST_MAX = 3;
+
+var COURSE = [
+  { chapter: "Mathematical Induction", items: [
+    { type: "folder", title: "Lecture 1", items: [
+      { type: "video", title: "Video", note: "YouTube video", latest: 2, url: "https://youtu.be/h6C5BPyWpzYs" },
+      { type: "pdf", title: "Class notes", note: "Notes (Drive)", url: "https://drive.google.com/file/d/1gbLPjvvfD3uUBJmbHS1Qb1BpzXcM06NO/view?usp=drive_link" }
+    ]},
+    { type: "folder", title: "Lecture 2", items: [
+      { type: "video", title: "Video", note: "YouTube video", latest: 1, url: "https://youtu.be/tP0kM1YXQfE" },
+      { type: "pdf", title: "Class notes", note: "Notes (Drive)", url: "https://drive.google.com/file/d/1ZokdTVv2Vabb3uTATsCXH4qni2KyHWtw/view?usp=drive_link" }
+    ]},
+    { type: "pdf",   title: "DPP 1",     note: "Daily practice problems (Drive)", url: "https://drive.google.com/file/d/1QDNHbI_CjcjtNBsfL6WWvr3PyylPDFWO/view?usp=drive_link" }
+  ]}
+  /* To add a chapter, copy the block above and add a comma between them. */
+];
+/* ================================================================= */
+
+var ICONS = {
+  video: '<svg class="ico" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M10 9.2v5.6l4.8-2.8z" fill="currentColor"/></svg>',
+  pdf: '<svg class="ico" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 2.5h8l5 5v14H6z"/><path d="M14 2.5v5h5"/><path d="M9 13h7M9 17h7"/></svg>',
+  image: '<svg class="ico" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="M4 18l5-5 4 4 3-3 4 4"/></svg>',
+  folder: '<svg class="ico" width="26" height="26" viewBox="0 0 24 24" fill="#f2b705" stroke="#14213d" stroke-width="2" stroke-linejoin="round"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4.6l2 2.5h8.4A1.5 1.5 0 0 1 21 9v9.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></svg>'
+};
+var TAGS = { video: "Watch", pdf: "PDF", image: "Image" };
+
+function el(tag, cls, html){ var e = document.createElement(tag); if(cls) e.className = cls; if(html != null) e.innerHTML = html; return e; }
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+
+var root = document.getElementById("root");
+function build(node, open){
+  var d = el("details");
+  if(open) d.open = true;
+  var n = node.items.length;
+  d.appendChild(el("summary", null,
+    '<span class="chev"></span>' + ICONS.folder + '<span>' + esc(node.chapter || node.title) + '</span>' +
+    '<span class="count">' + n + (n === 1 ? " item" : " items") + '</span>'));
+  var list = el("div", "list");
+  if(!n) list.appendChild(el("div", "empty", "Nothing here yet."));
+  node.items.forEach(function(it){
+    if(it.type === "folder"){ list.appendChild(build(it, false)); return; }
+    var a = el("a", "item",
+      (ICONS[it.type] || ICONS.pdf) +
+      '<span><span class="t">' + esc(it.title) + '</span><span class="d">' + esc(it.note || "") + '</span></span>' +
+      '<span class="tag">' + (TAGS[it.type] || "Open") + '</span>');
+    a.href = it.url; a.target = "_blank"; a.rel = "noopener noreferrer";
+    list.appendChild(a);
+  });
+  d.appendChild(list);
+  return d;
+}
+COURSE.forEach(function(ch, i){ root.appendChild(build(ch, i === 0)); });
+
+/* ---- Latest bar (videos only) ---- */
+function ytId(u){
+  var m = String(u).match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);
+  return m ? m[1] : null;
+}
+var found = [];
+function collect(nodes, path){
+  nodes.forEach(function(n){
+    if(n.type === "folder"){ collect(n.items, path.concat(n.title)); }
+    else if(n.type === "video" && n.latest){ found.push({ it: n, path: path }); }
+  });
+}
+COURSE.forEach(function(ch){ collect(ch.items, [ch.chapter]); });
+found.sort(function(a, b){ return a.it.latest - b.it.latest; });
+found = found.slice(0, LATEST_MAX);
+
+if(found.length){
+  var box = document.getElementById("latest");
+  box.appendChild(el("h2", "latest-h", '<span class="dot"></span>Latest videos'));
+  var grid = el("div", "latest-grid");
+  found.forEach(function(f){
+    var it = f.it, folder = f.path.length > 1 ? f.path[f.path.length - 1] : "";
+    var id = ytId(it.url);
+    var img = id ? '<img src="https://img.youtube.com/vi/' + id + '/hqdefault.jpg" alt="" loading="lazy" onerror="this.remove()">' : "";
+    var a = el("a", "vcard",
+      '<span class="thumb">' + img + '<span class="play"></span></span>' +
+      '<span class="vt"><span class="t">' + esc(folder ? folder + " \u00b7 " + it.title : it.title) + '</span><span class="d">' + esc(f.path[0]) + '</span></span>');
+    a.href = it.url; a.target = "_blank"; a.rel = "noopener noreferrer";
+    grid.appendChild(a);
+  });
+  box.appendChild(grid);
+}
+</script>
+</body>
+</html>
