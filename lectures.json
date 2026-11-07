@@ -1,0 +1,72 @@
+{
+  "subject": "Mathematics",
+  "items": [
+    {
+      "id": 1,
+      "type": "video",
+      "chapter": "Mathematical Induction",
+      "lecture": "Lecture 1",
+      "title": "Video",
+      "url": "https://youtu.be/h6C5BPyWpzYs",
+      "latest": 3
+    },
+    {
+      "id": 2,
+      "type": "notes",
+      "chapter": "Mathematical Induction",
+      "lecture": "Lecture 1",
+      "title": "Class notes",
+      "url": "https://drive.google.com/file/d/1gbLPjvvfD3uUBJmbHS1Qb1BpzXcM06NO/view?usp=drive_link"
+    },
+    {
+      "id": 3,
+      "type": "video",
+      "chapter": "Mathematical Induction",
+      "lecture": "Lecture 2",
+      "title": "Video",
+      "url": "https://youtu.be/tP0kM1YXQfE",
+      "latest": 2
+    },
+    {
+      "id": 4,
+      "type": "notes",
+      "chapter": "Mathematical Induction",
+      "lecture": "Lecture 2",
+      "title": "Class notes",
+      "url": "https://drive.google.com/file/d/1ZokdTVv2Vabb3uTATsCXH4qni2KyHWtw/view?usp=drive_link"
+    },
+    {
+      "id": 5,
+      "type": "video",
+      "chapter": "Mathematical Induction",
+      "lecture": "Lecture 3",
+      "title": "Video",
+      "url": "https://youtu.be/_X5qxZxQabg",
+      "latest": 1
+    },
+    {
+      "id": 6,
+      "type": "notes",
+      "chapter": "Mathematical Induction",
+      "lecture": "Lecture 3",
+      "title": "Class notes",
+      "url": "https://drive.google.com/file/d/1siRp9ZSgCtskmHE0-Tpq4u9e2aCudDEc/view?usp=drive_link"
+    },
+    {
+      "id": 7,
+      "type": "dpp",
+      "chapter": "Mathematical Induction",
+      "lecture": null,
+      "title": "DPP 1",
+      "url": "https://drive.google.com/file/d/1QDNHbI_CjcjtNBsfL6WWvr3PyylPDFWO/view?usp=drive_link"
+    },
+    {
+      "id": 8,
+      "type": "dpp",
+      "chapter": "Mathematical Induction",
+      "lecture": null,
+      "title": "DPP 2",
+      "url": "https://drive.google.com/file/d/1vNSzaVps7SE27s5Ig_9XJtVHXfZenmmC/view?usp=drive_link"
+    }
+  ]
+}
