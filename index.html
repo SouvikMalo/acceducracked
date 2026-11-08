@@ -7,6 +7,7 @@
 <meta name="theme-color" content="#fbfbfd" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <title>Pratistha XI 1.0</title>
+<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
@@ -17,7 +18,7 @@
   --accent:#0071e3; --accent-hover:#0077ed; --accent-soft:rgba(0,113,227,.10);
   --shadow:0 2px 6px rgba(0,0,0,.04), 0 22px 44px -22px rgba(0,0,0,.20);
   --shadow-hover:0 4px 12px rgba(0,0,0,.06), 0 34px 60px -24px rgba(0,0,0,.30);
-  --cshadow:0 1px 3px rgba(0,0,0,.03); --alt-a:rgba(244,244,246,.78);
+  --cshadow:0 1px 3px rgba(0,0,0,.03); --alt-a:rgba(244,244,246,.78); --glass:rgba(255,255,255,.74);
   --hover:rgba(0,0,0,.028); --item-hover:rgba(0,113,227,.06); --nest:linear-gradient(90deg,rgba(0,0,0,.02),transparent 60%);
   --chev:#b0b0b5; --focus:rgba(0,113,227,.55); --chip:rgba(0,0,0,.06);
   --sh1:#ececf0; --sh2:#f6f6f9; --h1a:#1d1d1f; --h1b:#58585d;
@@ -27,7 +28,7 @@
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){
-  :root{
+  :root:not([data-theme="light"]){
     --bg:#000000; --alt:#101012; --card:#1c1c1e;
     --ink:#f5f5f7; --muted:#a1a1a6; --hair:rgba(255,255,255,.13);
     --accent:#2997ff; --accent-hover:#40a4ff; --accent-soft:rgba(41,151,255,.16);
@@ -38,13 +39,26 @@
     --chev:#6e6e73; --focus:rgba(41,151,255,.65); --chip:rgba(255,255,255,.11);
     --sh1:#1c1c1e; --sh2:#2c2c2e; --h1a:#f5f5f7; --h1b:#8e8e93;
     --b1:rgba(41,151,255,.22); --b2:rgba(175,82,222,.18); --b3:rgba(255,159,10,.10);
-    color-scheme:dark;
+    color-scheme:dark; --glass:rgba(44,44,46,.74);
   }
+}
+:root[data-theme="dark"]{
+    --bg:#000000; --alt:#101012; --card:#1c1c1e;
+    --ink:#f5f5f7; --muted:#a1a1a6; --hair:rgba(255,255,255,.13);
+    --accent:#2997ff; --accent-hover:#40a4ff; --accent-soft:rgba(41,151,255,.16);
+    --shadow:0 2px 6px rgba(0,0,0,.4), 0 22px 44px -22px rgba(0,0,0,.8);
+    --shadow-hover:0 4px 12px rgba(0,0,0,.5), 0 34px 60px -24px rgba(0,0,0,.95);
+    --cshadow:0 1px 3px rgba(0,0,0,.4); --alt-a:rgba(18,18,20,.78);
+    --hover:rgba(255,255,255,.05); --item-hover:rgba(41,151,255,.13); --nest:linear-gradient(90deg,rgba(255,255,255,.03),transparent 60%);
+    --chev:#6e6e73; --focus:rgba(41,151,255,.65); --chip:rgba(255,255,255,.11);
+    --sh1:#1c1c1e; --sh2:#2c2c2e; --h1a:#f5f5f7; --h1b:#8e8e93;
+    --b1:rgba(41,151,255,.22); --b2:rgba(175,82,222,.18); --b3:rgba(255,159,10,.10);
+    color-scheme:dark; --glass:rgba(44,44,46,.74);
 }
 *{box-sizing:border-box}
 html{background:var(--bg); scroll-behavior:smooth; scroll-padding-top:20px; -webkit-text-size-adjust:100%}
 body{
-  margin:0; color:var(--ink); background:var(--bg); font-family:var(--font); font-size:17px; line-height:1.47;
+  margin:0; color:var(--ink); font-family:var(--font); font-size:17px; line-height:1.47;
   letter-spacing:-.011em; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; text-rendering:optimizeLegibility;
   overflow-x:hidden;
 }
@@ -130,8 +144,26 @@ h2{margin:0; font-size:clamp(2rem,6vw,3.2rem); line-height:1.07; letter-spacing:
 .chip.k{background:var(--accent-soft); color:var(--accent)}
 
 /* ---------- background video ---------- */
-.bgv{position:fixed; inset:0; width:100%; height:100%; object-fit:cover; z-index:-1; opacity:0; pointer-events:none}
+.bgv{position:fixed; inset:0; width:100%; height:100%; object-fit:cover; z-index:-1; opacity:0; pointer-events:none; transform:scale(1.06)}
 .bgveil{position:fixed; inset:0; z-index:-1; background:var(--bg); opacity:0; pointer-events:none}
+
+/* ---------- theme toggle (sun / moon) ---------- */
+.tt{
+  position:fixed; z-index:60; top:max(14px,env(safe-area-inset-top,0px)); right:max(14px,env(safe-area-inset-right,0px));
+  width:44px; height:44px; padding:0; border:0; border-radius:50%; cursor:pointer; color:var(--ink);
+  background:var(--glass); -webkit-backdrop-filter:blur(18px) saturate(180%); backdrop-filter:blur(18px) saturate(180%);
+  box-shadow:0 1px 3px rgba(0,0,0,.12), 0 8px 22px -10px rgba(0,0,0,.35);
+  transition:transform .5s var(--ease), background .3s ease; -webkit-tap-highlight-color:transparent;
+}
+.tt:hover{transform:scale(1.1)}
+.tt:active{transform:scale(.92)}
+.tt:focus-visible{outline:3px solid var(--focus); outline-offset:2px}
+.tt svg{position:absolute; left:50%; top:50%; width:22px; height:22px; margin:-11px 0 0 -11px; transition:transform .6s var(--ease), opacity .4s ease}
+.tt .moon{opacity:1; transform:rotate(0) scale(1)}
+.tt .sun{opacity:0; transform:rotate(-90deg) scale(.4)}
+.tt[data-mode="dark"] .moon{opacity:0; transform:rotate(90deg) scale(.4)}
+.tt[data-mode="dark"] .sun{opacity:1; transform:rotate(0) scale(1)}
+html.theme-anim,html.theme-anim *{transition:background-color .5s ease, color .5s ease, border-color .5s ease, box-shadow .5s ease!important}
 
 /* ---------- latest materials ---------- */
 .sec.tight{padding-top:0}
@@ -227,6 +259,11 @@ footer{padding:34px 0 calc(40px + env(safe-area-inset-bottom,0px)); background:v
 </head>
 <body>
 
+<button class="tt" id="themeBtn" type="button" aria-label="Switch to dark theme" data-mode="light">
+  <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+  <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+</button>
+
 <header class="hero" id="top">
   <div class="wrap hero-inner" id="heroInner">
     <h1 class="hero-in">Pratishtha XI 1.0</h1>
@@ -288,15 +325,18 @@ var LATEST_MAX = 3;
 var LATEST_MATERIALS_MAX = 3;
 
 /* BACKGROUND VIDEOS: upload your short videos to a folder named "videos" in your GitHub repo
-   and list their file names here. ONE of them is picked at random and plays in the background
-   (picture and sound), fading in at the start and fading out at the end. It plays once per visit.
+   and list their file names below (as many as you like). A random one plays in the background
+   (picture and sound), fading in at the start and fading out at the end. When it finishes, the
+   site waits BG_DELAY seconds and then plays another random one, and so on. Every video plays
+   once before any video repeats, and the same video never plays twice in a row.
    SOUND: the sound is always on. Browsers only allow sound after the visitor has tapped or clicked
-   somewhere on the page, so the video starts once BG_DELAY seconds have passed AND the visitor has
-   tapped/clicked/pressed a key at least once (if they already did, it starts exactly at BG_DELAY;
-   if not, it starts at their first tap/click after that). BG_SOUND = false makes it silent and
-   starts it at BG_DELAY with no tap needed. BG_VOLUME = loudness (0 to 1).
-   BG_OPACITY = video strength (1 = full). BG_VEIL = how much of the page colour is laid over the
-   video so the text stays readable (0 = none, 0.5 = strong). BG_FADE = fade length in seconds. */
+   somewhere on the page, so the first video starts once BG_DELAY seconds have passed AND the visitor
+   has tapped/clicked/pressed a key at least once (if they already did, it starts exactly at BG_DELAY;
+   if not, at their first tap/click after that). BG_SOUND = false makes it silent and needs no tap.
+   BG_DELAY = seconds on the page before the first video AND the pause between videos.
+   BG_VOLUME = loudness (0 to 1). BG_BLUR = softness of the picture in pixels (0 = sharp, 4 = a little,
+   10 = strong). BG_OPACITY = video strength (1 = full). BG_VEIL = how much of the page colour is laid
+   over the video so the text stays readable (0 = none, 0.5 = strong). BG_FADE = fade length in seconds. */
 var BG_VIDEOS = [
   "videos/bg1.mp4",
   "videos/bg2.mp4",
@@ -307,6 +347,7 @@ var BG_VIDEOS = [
 var BG_DELAY = 10;
 var BG_OPACITY = 1;
 var BG_VEIL = 0.3;
+var BG_BLUR = 4;
 var BG_FADE = 1.5;
 var BG_SOUND = true;
 var BG_VOLUME = 0.6;
@@ -503,21 +544,60 @@ window.addEventListener("scroll", function(){
 }, { passive: true });
 onScroll();
 
-/* ---- random background video (always with sound) ---- */
+/* ---- sun / moon theme toggle ---- */
+(function(){
+  var btn = document.getElementById("themeBtn"), html = document.documentElement;
+  var mq = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+  function current(){ return html.getAttribute("data-theme") || (mq && mq.matches ? "dark" : "light"); }
+  function sync(){
+    var m = current();
+    btn.setAttribute("data-mode", m);
+    btn.setAttribute("aria-label", m === "dark" ? "Switch to light theme" : "Switch to dark theme");
+  }
+  btn.addEventListener("click", function(){
+    var next = current() === "dark" ? "light" : "dark";
+    if(!REDUCE){ html.classList.add("theme-anim"); setTimeout(function(){ html.classList.remove("theme-anim"); }, 650); }
+    html.setAttribute("data-theme", next);
+    try{ localStorage.setItem("theme", next); }catch(e){}
+    sync();
+  });
+  if(mq){ var f = function(){ sync(); }; if(mq.addEventListener) mq.addEventListener("change", f); else if(mq.addListener) mq.addListener(f); }
+  sync();
+})();
+
+/* ---- random background videos (always with sound), one after another ---- */
 (function(){
   if(!BG_VIDEOS.length || REDUCE) return;
   var conn = navigator.connection;
   if(conn && conn.saveData) return;              /* respect data-saver mode */
-  var pool = BG_VIDEOS.slice().sort(function(){ return Math.random() - 0.5; });
-  var timeUp = false, running = false, finished = false, touched = false;
+  var queue = [], bad = {}, last = null;
+  var timeUp = false, running = false, touched = false;
 
+  /* every video plays once before any repeats; never the same one twice in a row */
+  function pick(){
+    if(!queue.length){
+      queue = BG_VIDEOS.filter(function(x){ return !bad[x]; });
+      if(!queue.length) return null;
+      for(var i = queue.length - 1; i > 0; i--){
+        var j = Math.floor(Math.random() * (i + 1)), t = queue[i]; queue[i] = queue[j]; queue[j] = t;
+      }
+      if(queue.length > 1 && queue[queue.length - 1] === last){
+        var x = queue[0]; queue[0] = queue[queue.length - 1]; queue[queue.length - 1] = x;
+      }
+    }
+    return queue.pop();
+  }
   function hasActivation(){
     return touched || (navigator.userActivation && navigator.userActivation.hasBeenActive);
   }
   function tryStart(){
-    if(!timeUp || running || finished || document.hidden) return;
+    if(!timeUp || running || document.hidden) return;
     if(BG_SOUND && !hasActivation()) return;     /* sound needs a tap/click first: wait for it */
     next();
+  }
+  function scheduleNext(){
+    timeUp = false;
+    setTimeout(function(){ timeUp = true; tryStart(); }, BG_DELAY * 1000);
   }
   ["pointerdown","pointerup","touchend","keydown"].forEach(function(ev){
     window.addEventListener(ev, function(){ touched = true; tryStart(); }, { passive: true, capture: true });
@@ -525,11 +605,12 @@ onScroll();
   document.addEventListener("visibilitychange", tryStart);
 
   function next(){
-    var src = pool.pop();
+    var src = pick();
     if(!src) return;
-    running = true;
+    last = src; running = true;
     var v = document.createElement("video"), veil = document.createElement("div"), raf = 0, gone = false;
     v.className = "bgv"; veil.className = "bgveil";
+    if(BG_BLUR > 0) v.style.filter = "blur(" + BG_BLUR + "px)";
     v.muted = !BG_SOUND; v.playsInline = true; v.preload = "auto";
     v.setAttribute("playsinline", ""); v.setAttribute("aria-hidden", "true");
     v.tabIndex = -1; v.disablePictureInPicture = true;
@@ -547,25 +628,24 @@ onScroll();
       }
       if(!v.ended && !v.paused) raf = requestAnimationFrame(frame);
     }
-    function done(ended){
+    function done(){
       if(gone) return; gone = true;
       cancelAnimationFrame(raf);
       if(v.parentNode) v.parentNode.removeChild(v);
       if(veil.parentNode) veil.parentNode.removeChild(veil);
       running = false;
-      if(ended) finished = true;
     }
 
     v.addEventListener("playing", function(){ cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); });
-    v.addEventListener("ended", function(){ done(true); });
-    v.addEventListener("error", function(){ done(false); next(); });   /* missing file: try another one */
+    v.addEventListener("ended", function(){ done(); scheduleNext(); });   /* wait BG_DELAY, then another video */
+    v.addEventListener("error", function(){ bad[src] = true; done(); next(); });   /* missing file: skip it */
     document.body.appendChild(v);
     document.body.appendChild(veil);
     var p = v.play();
     if(p && p.catch) p.catch(function(err){
       if(err && err.name === "NotAllowedError"){      /* sound still blocked: try again at the next tap */
-        done(false);
-        if(!v.muted) pool.push(src);
+        done();
+        queue.push(src);
       }
     });
   }
