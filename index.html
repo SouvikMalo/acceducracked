@@ -17,7 +17,7 @@
   --accent:#0071e3; --accent-hover:#0077ed; --accent-soft:rgba(0,113,227,.10);
   --shadow:0 2px 6px rgba(0,0,0,.04), 0 22px 44px -22px rgba(0,0,0,.20);
   --shadow-hover:0 4px 12px rgba(0,0,0,.06), 0 34px 60px -24px rgba(0,0,0,.30);
-  --cshadow:0 1px 3px rgba(0,0,0,.03); --alt-a:rgba(244,244,246,.9); --glass:rgba(255,255,255,.74);
+  --cshadow:0 1px 3px rgba(0,0,0,.03); --alt-a:rgba(244,244,246,.78);
   --hover:rgba(0,0,0,.028); --item-hover:rgba(0,113,227,.06); --nest:linear-gradient(90deg,rgba(0,0,0,.02),transparent 60%);
   --chev:#b0b0b5; --focus:rgba(0,113,227,.55); --chip:rgba(0,0,0,.06);
   --sh1:#ececf0; --sh2:#f6f6f9; --h1a:#1d1d1f; --h1b:#58585d;
@@ -33,7 +33,7 @@
     --accent:#2997ff; --accent-hover:#40a4ff; --accent-soft:rgba(41,151,255,.16);
     --shadow:0 2px 6px rgba(0,0,0,.4), 0 22px 44px -22px rgba(0,0,0,.8);
     --shadow-hover:0 4px 12px rgba(0,0,0,.5), 0 34px 60px -24px rgba(0,0,0,.95);
-    --cshadow:0 1px 3px rgba(0,0,0,.4); --alt-a:rgba(18,18,20,.9); --glass:rgba(44,44,46,.74);
+    --cshadow:0 1px 3px rgba(0,0,0,.4); --alt-a:rgba(18,18,20,.78);
     --hover:rgba(255,255,255,.05); --item-hover:rgba(41,151,255,.13); --nest:linear-gradient(90deg,rgba(255,255,255,.03),transparent 60%);
     --chev:#6e6e73; --focus:rgba(41,151,255,.65); --chip:rgba(255,255,255,.11);
     --sh1:#1c1c1e; --sh2:#2c2c2e; --h1a:#f5f5f7; --h1b:#8e8e93;
@@ -131,18 +131,7 @@ h2{margin:0; font-size:clamp(2rem,6vw,3.2rem); line-height:1.07; letter-spacing:
 
 /* ---------- background video ---------- */
 .bgv{position:fixed; inset:0; width:100%; height:100%; object-fit:cover; z-index:-1; opacity:0; pointer-events:none}
-
-.bgsound{
-  position:fixed; z-index:60; right:max(16px,env(safe-area-inset-right,0px)); bottom:max(16px,env(safe-area-inset-bottom,0px));
-  width:46px; height:46px; border:0; padding:0; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center;
-  color:var(--ink); background:var(--glass); -webkit-backdrop-filter:blur(18px) saturate(180%); backdrop-filter:blur(18px) saturate(180%);
-  box-shadow:var(--shadow); opacity:0; transform:scale(.8); -webkit-tap-highlight-color:transparent;
-  transition:opacity .6s var(--ease), transform .6s var(--ease);
-}
-.bgsound.in{opacity:1; transform:none}
-.bgsound.in:hover{transform:scale(1.1)}
-.bgsound.in:active{transform:scale(.94)}
-.bgsound:focus-visible{outline:3px solid var(--focus); outline-offset:2px}
+.bgveil{position:fixed; inset:0; z-index:-1; background:var(--bg); opacity:0; pointer-events:none}
 
 /* ---------- latest materials ---------- */
 .sec.tight{padding-top:0}
@@ -299,14 +288,15 @@ var LATEST_MAX = 3;
 var LATEST_MATERIALS_MAX = 3;
 
 /* BACKGROUND VIDEOS: upload your short videos to a folder named "videos" in your GitHub repo
-   and list their file names here. After the visitor has been on the page for BG_DELAY seconds,
-   ONE of them is picked at random and plays in the background, fading in at the start and
-   fading out at the end (picture and sound). It plays once per visit.
-   SOUND: browsers only allow sound after the visitor has tapped or clicked somewhere on the page.
-   If they have, the video starts with sound. If not, it starts muted and the sound switches on
-   by itself at their first tap/click. A small speaker button lets them mute or unmute any time.
-   BG_SOUND = false keeps it silent. BG_VOLUME = loudness (0 to 1).
-   BG_OPACITY = how visible the picture is (0 to 1, lower = subtler). BG_FADE = fade length in seconds. */
+   and list their file names here. ONE of them is picked at random and plays in the background
+   (picture and sound), fading in at the start and fading out at the end. It plays once per visit.
+   SOUND: the sound is always on. Browsers only allow sound after the visitor has tapped or clicked
+   somewhere on the page, so the video starts once BG_DELAY seconds have passed AND the visitor has
+   tapped/clicked/pressed a key at least once (if they already did, it starts exactly at BG_DELAY;
+   if not, it starts at their first tap/click after that). BG_SOUND = false makes it silent and
+   starts it at BG_DELAY with no tap needed. BG_VOLUME = loudness (0 to 1).
+   BG_OPACITY = video strength (1 = full). BG_VEIL = how much of the page colour is laid over the
+   video so the text stays readable (0 = none, 0.5 = strong). BG_FADE = fade length in seconds. */
 var BG_VIDEOS = [
   "videos/bg1.mp4",
   "videos/bg2.mp4",
@@ -315,7 +305,8 @@ var BG_VIDEOS = [
   "videos/bg5.mp4"
 ];
 var BG_DELAY = 10;
-var BG_OPACITY = 0.4;
+var BG_OPACITY = 1;
+var BG_VEIL = 0.3;
 var BG_FADE = 1.5;
 var BG_SOUND = true;
 var BG_VOLUME = 0.6;
@@ -512,71 +503,38 @@ window.addEventListener("scroll", function(){
 }, { passive: true });
 onScroll();
 
-/* ---- random background video (with sound) after BG_DELAY seconds ---- */
+/* ---- random background video (always with sound) ---- */
 (function(){
   if(!BG_VIDEOS.length || REDUCE) return;
   var conn = navigator.connection;
   if(conn && conn.saveData) return;              /* respect data-saver mode */
   var pool = BG_VIDEOS.slice().sort(function(){ return Math.random() - 0.5; });
-  var touched = false, userMuted = false, current = null, btn = null;
+  var timeUp = false, running = false, finished = false, touched = false;
 
-  var ON  = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
-  var OFF = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M22 9l-6 6M16 9l6 6"/></svg>';
-
-  function sync(){
-    if(!btn || !current) return;
-    btn.innerHTML = current.muted ? OFF : ON;
-    btn.setAttribute("aria-label", current.muted ? "Turn video sound on" : "Turn video sound off");
-  }
   function hasActivation(){
     return touched || (navigator.userActivation && navigator.userActivation.hasBeenActive);
   }
-  /* first tap / click / key press: switch the sound on if it started muted */
-  function onGesture(){
-    touched = true;
-    if(BG_SOUND && current && current.muted && !userMuted){
-      current.muted = false;
-      var p = current.play(); if(p && p.catch) p.catch(function(){});
-      sync();
-    }
-  }
-  ["pointerdown","pointerup","touchend","keydown"].forEach(function(ev){
-    window.addEventListener(ev, onGesture, { passive: true, capture: true });
-  });
-
-  function makeBtn(v){
-    btn = document.createElement("button");
-    btn.type = "button"; btn.className = "bgsound";
-    btn.addEventListener("click", function(e){
-      e.stopPropagation();
-      v.muted = !v.muted; userMuted = v.muted; sync();
-    });
-    document.body.appendChild(btn);
-    sync();
-    requestAnimationFrame(function(){ requestAnimationFrame(function(){ if(btn) btn.classList.add("in"); }); });
-  }
-
-  function start(){
-    if(document.hidden){
-      document.addEventListener("visibilitychange", function once(){
-        if(!document.hidden){ document.removeEventListener("visibilitychange", once); start(); }
-      });
-      return;
-    }
+  function tryStart(){
+    if(!timeUp || running || finished || document.hidden) return;
+    if(BG_SOUND && !hasActivation()) return;     /* sound needs a tap/click first: wait for it */
     next();
   }
+  ["pointerdown","pointerup","touchend","keydown"].forEach(function(ev){
+    window.addEventListener(ev, function(){ touched = true; tryStart(); }, { passive: true, capture: true });
+  });
+  document.addEventListener("visibilitychange", tryStart);
+
   function next(){
     var src = pool.pop();
     if(!src) return;
-    var v = document.createElement("video"), raf = 0;
-    v.className = "bgv";
-    v.muted = !(BG_SOUND && hasActivation());
-    v.playsInline = true; v.preload = "auto";
+    running = true;
+    var v = document.createElement("video"), veil = document.createElement("div"), raf = 0, gone = false;
+    v.className = "bgv"; veil.className = "bgveil";
+    v.muted = !BG_SOUND; v.playsInline = true; v.preload = "auto";
     v.setAttribute("playsinline", ""); v.setAttribute("aria-hidden", "true");
     v.tabIndex = -1; v.disablePictureInPicture = true;
     try{ v.volume = 0; }catch(e){}
     v.src = src;
-    current = v;
 
     function frame(){
       var d = v.duration, t = v.currentTime;
@@ -584,33 +542,34 @@ onScroll();
         var f = Math.max(0.1, Math.min(BG_FADE, d / 2));
         var k = Math.max(0, Math.min(1, t / f, (d - t) / f));   /* fade in at start, fade out at end */
         v.style.opacity = String(k * BG_OPACITY);
+        veil.style.opacity = String(k * BG_VEIL);
         try{ v.volume = Math.max(0, Math.min(1, k * BG_VOLUME)); }catch(e){}
       }
       if(!v.ended && !v.paused) raf = requestAnimationFrame(frame);
     }
-    function done(){
+    function done(ended){
+      if(gone) return; gone = true;
       cancelAnimationFrame(raf);
       if(v.parentNode) v.parentNode.removeChild(v);
-      if(btn){ var b = btn; btn = null; b.classList.remove("in"); setTimeout(function(){ if(b.parentNode) b.parentNode.removeChild(b); }, 700); }
-      if(current === v) current = null;
+      if(veil.parentNode) veil.parentNode.removeChild(veil);
+      running = false;
+      if(ended) finished = true;
     }
 
-    v.addEventListener("playing", function(){
-      if(!btn && BG_SOUND) makeBtn(v);
-      cancelAnimationFrame(raf); raf = requestAnimationFrame(frame);
-    });
-    v.addEventListener("ended", done);
-    v.addEventListener("error", function(){ done(); next(); });   /* missing file: try another one */
+    v.addEventListener("playing", function(){ cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); });
+    v.addEventListener("ended", function(){ done(true); });
+    v.addEventListener("error", function(){ done(false); next(); });   /* missing file: try another one */
     document.body.appendChild(v);
+    document.body.appendChild(veil);
     var p = v.play();
-    if(p && p.catch) p.catch(function(){
-      if(!v.muted){                       /* sound was blocked: fall back to silent playback */
-        v.muted = true; sync();
-        var q = v.play(); if(q && q.catch) q.catch(done);
-      } else { done(); }
+    if(p && p.catch) p.catch(function(err){
+      if(err && err.name === "NotAllowedError"){      /* sound still blocked: try again at the next tap */
+        done(false);
+        if(!v.muted) pool.push(src);
+      }
     });
   }
-  setTimeout(start, BG_DELAY * 1000);
+  setTimeout(function(){ timeUp = true; tryStart(); }, BG_DELAY * 1000);
 })();
 </script>
 <script data-goatcounter="https://hunttt61.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
