@@ -3,152 +3,391 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfbfd" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <title>Pratistha XI 1.0</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Source+Serif+4:wght@400;600&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 <style>
 :root{
-  --bg:#eef3f8; --grid:#d3dde9; --ink:#14213d; --muted:#51607a;
-  --card:#ffffff; --line:#c3cfdf; --accent:#1f4fd8; --accent-soft:#e3ebff; --warm:#f2b705;
-  box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#fbfbfd; --alt:#f5f5f7; --card:#ffffff;
+  --ink:#1d1d1f; --muted:#6e6e73; --hair:rgba(0,0,0,.08);
+  --accent:#0071e3; --accent-hover:#0077ed; --accent-soft:rgba(0,113,227,.10);
+  --shadow:0 2px 6px rgba(0,0,0,.04), 0 22px 44px -22px rgba(0,0,0,.20);
+  --shadow-hover:0 4px 12px rgba(0,0,0,.06), 0 34px 60px -24px rgba(0,0,0,.30);
+  --cshadow:0 1px 3px rgba(0,0,0,.03); --alt-a:rgba(244,244,246,.9); --glass:rgba(255,255,255,.74);
+  --hover:rgba(0,0,0,.028); --item-hover:rgba(0,113,227,.06); --nest:linear-gradient(90deg,rgba(0,0,0,.02),transparent 60%);
+  --chev:#b0b0b5; --focus:rgba(0,113,227,.55); --chip:rgba(0,0,0,.06);
+  --sh1:#ececf0; --sh2:#f6f6f9; --h1a:#1d1d1f; --h1b:#58585d;
+  --b1:rgba(0,113,227,.16); --b2:rgba(175,82,222,.13); --b3:rgba(255,159,10,.14);
+  --ease:cubic-bezier(.22,.8,.24,1);
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Inter","Segoe UI","Helvetica Neue",Arial,sans-serif;
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#0f1626; --grid:#1b2740; --ink:#e8eefb; --muted:#9bacc8;
-    --card:#17213a; --line:#2c3b5c; --accent:#7ea2ff; --accent-soft:#223157; --warm:#f2c94c;
+  :root{
+    --bg:#000000; --alt:#101012; --card:#1c1c1e;
+    --ink:#f5f5f7; --muted:#a1a1a6; --hair:rgba(255,255,255,.13);
+    --accent:#2997ff; --accent-hover:#40a4ff; --accent-soft:rgba(41,151,255,.16);
+    --shadow:0 2px 6px rgba(0,0,0,.4), 0 22px 44px -22px rgba(0,0,0,.8);
+    --shadow-hover:0 4px 12px rgba(0,0,0,.5), 0 34px 60px -24px rgba(0,0,0,.95);
+    --cshadow:0 1px 3px rgba(0,0,0,.4); --alt-a:rgba(18,18,20,.9); --glass:rgba(44,44,46,.74);
+    --hover:rgba(255,255,255,.05); --item-hover:rgba(41,151,255,.13); --nest:linear-gradient(90deg,rgba(255,255,255,.03),transparent 60%);
+    --chev:#6e6e73; --focus:rgba(41,151,255,.65); --chip:rgba(255,255,255,.11);
+    --sh1:#1c1c1e; --sh2:#2c2c2e; --h1a:#f5f5f7; --h1b:#8e8e93;
+    --b1:rgba(41,151,255,.22); --b2:rgba(175,82,222,.18); --b3:rgba(255,159,10,.10);
     color-scheme:dark;
   }
 }
-:root[data-theme="dark"]{
-  --bg:#0f1626; --grid:#1b2740; --ink:#e8eefb; --muted:#9bacc8;
-  --card:#17213a; --line:#2c3b5c; --accent:#7ea2ff; --accent-soft:#223157; --warm:#f2c94c;
-  color-scheme:dark;
-}
 *{box-sizing:border-box}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html{background:var(--bg); scroll-behavior:smooth; scroll-padding-top:20px; -webkit-text-size-adjust:100%}
 body{
-  margin:0; min-height:100vh; color:var(--ink); background-color:var(--bg);
-  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
-  background-size:28px 28px;
-  font-family:"Source Serif 4",Georgia,"Times New Roman",serif; font-size:18px; line-height:1.55;
+  margin:0; color:var(--ink); background:var(--bg); font-family:var(--font); font-size:17px; line-height:1.47;
+  letter-spacing:-.011em; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; text-rendering:optimizeLegibility;
+  overflow-x:hidden;
 }
-main{max-width:760px; margin:0 auto; padding:48px 20px 80px}
-h1,h2,.label{font-family:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif}
-header{margin-bottom:28px}
-h1{font-size:clamp(2.2rem,7vw,3.4rem); line-height:1.05; margin:0 0 8px; font-weight:700; letter-spacing:-.02em}
-.sub{color:var(--muted); margin:0}
+a{color:inherit}
+.wrap{max-width:980px; margin:0 auto; padding:0 max(22px,env(safe-area-inset-left,0px)) 0 max(22px,env(safe-area-inset-right,0px))}
 
-/* Container: the single large folder */
-.container{
-  background:var(--card); border:2px solid var(--ink); border-radius:6px 22px 22px 22px;
-  position:relative; margin-top:26px; box-shadow:6px 6px 0 var(--ink);
+/* ---------- hero ---------- */
+.hero{position:relative; isolation:isolate; overflow:hidden; text-align:center; padding:calc(110px + env(safe-area-inset-top,0px)) 0 100px}
+.hero::before{
+  content:""; position:absolute; z-index:-1; left:-10%; right:-10%; top:-10%; height:115%; filter:blur(36px);
+  background:
+    radial-gradient(38% 42% at 28% 38%, var(--b1), transparent 72%),
+    radial-gradient(34% 38% at 74% 32%, var(--b2), transparent 72%),
+    radial-gradient(30% 34% at 56% 74%, var(--b3), transparent 72%);
+  animation:drift 18s ease-in-out infinite alternate;
 }
-.container::before{
-  content:"Pratishtha XI 1.0"; position:absolute; top:-26px; left:-2px; padding:3px 16px 2px;
-  background:var(--warm); color:#14213d; border:2px solid var(--ink); border-bottom:none;
-  border-radius:10px 10px 0 0; font:700 .85rem "Bricolage Grotesque",Arial,sans-serif;
+@keyframes drift{from{transform:translate3d(-2%,0,0) scale(1)} to{transform:translate3d(2%,3%,0) scale(1.08)}}
+.hero-inner{will-change:transform,opacity}
+h1{
+  font-size:clamp(2.7rem,10.5vw,6rem); line-height:1.02; letter-spacing:-.045em; font-weight:700; margin:0 0 20px;
+  background:linear-gradient(180deg,var(--h1a) 35%,var(--h1b) 120%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:var(--ink);
 }
-.container>.inner{padding:10px}
+.sub{font-size:clamp(1.1rem,3.4vw,1.5rem); line-height:1.35; letter-spacing:-.018em; color:var(--muted); margin:0 auto; max-width:26em; font-weight:400}
+.cta{margin-top:34px; display:flex; align-items:center; justify-content:center; gap:26px; flex-wrap:wrap}
+.btn{
+  display:inline-block; padding:12px 24px; border-radius:99px; background:var(--accent); color:#fff; text-decoration:none;
+  font-size:1.02rem; font-weight:500; letter-spacing:-.01em; transition:background .25s ease, transform .4s var(--ease), box-shadow .4s var(--ease);
+}
+.btn:hover{background:var(--accent-hover); transform:scale(1.04); box-shadow:0 12px 26px -10px rgba(0,113,227,.6)}
+.btn:active{transform:scale(.98)}
+.link{color:var(--accent); text-decoration:none; font-size:1.02rem}
+.link::after{content:"\203A"; display:inline-block; margin-left:6px; transition:transform .35s var(--ease)}
+.link:hover::after{transform:translateX(5px)}
+.link:hover{text-decoration:underline; text-underline-offset:4px}
 
-details{border-radius:12px}
-details+details{margin-top:6px}
+/* hero entrance */
+@keyframes blurin{from{opacity:0; transform:translateY(26px); filter:blur(10px)} to{opacity:1; transform:none; filter:blur(0)}}
+.hero-in{animation:blurin 1.1s var(--ease) both; animation-delay:var(--d,0s)}
+
+/* ---------- sections ---------- */
+.sec{padding:96px 0}
+.sec.alt{background:var(--alt-a); -webkit-backdrop-filter:blur(26px); backdrop-filter:blur(26px)}
+.shead{margin-bottom:36px}
+.eyebrow{margin:0 0 8px; font-size:.82rem; font-weight:600; letter-spacing:.02em; color:var(--muted); text-transform:uppercase; display:flex; align-items:center; gap:9px}
+.eyebrow .dot{position:relative; width:8px; height:8px; border-radius:50%; background:#ff9f0a}
+.eyebrow .dot::after{content:""; position:absolute; inset:0; border-radius:50%; background:#ff9f0a; animation:pulse 2.2s ease-out infinite}
+@keyframes pulse{from{transform:scale(1); opacity:.7} to{transform:scale(3.2); opacity:0}}
+h2{margin:0; font-size:clamp(2rem,6vw,3.2rem); line-height:1.07; letter-spacing:-.035em; font-weight:700}
+
+/* scroll reveal */
+.rv{opacity:0; transform:translateY(34px) scale(.985); transition:opacity 1s var(--ease) var(--d,0s), transform 1.1s var(--ease) var(--d,0s)}
+.rv.in{opacity:1; transform:none}
+
+/* ---------- latest videos ---------- */
+.latest-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:22px}
+.vcard{
+  display:block; text-decoration:none; background:var(--card); border-radius:28px; overflow:hidden; box-shadow:var(--shadow);
+  transition:transform .6s var(--ease), box-shadow .6s var(--ease); -webkit-tap-highlight-color:transparent;
+}
+.vcard:hover{transform:translateY(-6px) scale(1.012); box-shadow:var(--shadow-hover)}
+.vcard:active{transform:scale(.985)}
+.thumb{
+  position:relative; display:block; aspect-ratio:16/9; overflow:hidden;
+  background:linear-gradient(100deg,var(--sh1) 30%,var(--sh2) 50%,var(--sh1) 70%) 0 0/220% 100%; animation:shimmer 1.5s linear infinite;
+}
+@keyframes shimmer{from{background-position:120% 0} to{background-position:-100% 0}}
+.thumb img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .7s ease, transform 1.2s var(--ease)}
+.thumb img.in{opacity:1}
+.vcard:hover .thumb img{transform:scale(1.07)}
+.thumb::after{content:""; position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,.34),transparent 52%); pointer-events:none}
+.play{
+  position:absolute; z-index:1; left:50%; top:50%; width:58px; height:58px; margin:-29px 0 0 -29px; border-radius:50%;
+  background:rgba(255,255,255,.28); -webkit-backdrop-filter:blur(12px) saturate(160%); backdrop-filter:blur(12px) saturate(160%);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.55); transition:transform .5s var(--ease), background .3s ease;
+}
+.play::after{content:""; position:absolute; left:23px; top:18px; border-left:16px solid #fff; border-top:11px solid transparent; border-bottom:11px solid transparent}
+.vcard:hover .play{transform:scale(1.14); background:rgba(255,255,255,.4)}
+.vt{display:block; padding:16px 20px 20px}
+.vt .t{display:block; font-size:1.12rem; font-weight:600; letter-spacing:-.02em}
+.vt .d{display:block; font-size:.9rem; color:var(--muted)}
+.chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:12px}
+.chip{display:inline-block; padding:3px 10px; border-radius:8px; font-size:.78rem; font-weight:500; line-height:1.5; letter-spacing:0; background:var(--chip); color:var(--muted)}
+.chip.k{background:var(--accent-soft); color:var(--accent)}
+
+/* ---------- background video ---------- */
+.bgv{position:fixed; inset:0; width:100%; height:100%; object-fit:cover; z-index:-1; opacity:0; pointer-events:none}
+
+.bgsound{
+  position:fixed; z-index:60; right:max(16px,env(safe-area-inset-right,0px)); bottom:max(16px,env(safe-area-inset-bottom,0px));
+  width:46px; height:46px; border:0; padding:0; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  color:var(--ink); background:var(--glass); -webkit-backdrop-filter:blur(18px) saturate(180%); backdrop-filter:blur(18px) saturate(180%);
+  box-shadow:var(--shadow); opacity:0; transform:scale(.8); -webkit-tap-highlight-color:transparent;
+  transition:opacity .6s var(--ease), transform .6s var(--ease);
+}
+.bgsound.in{opacity:1; transform:none}
+.bgsound.in:hover{transform:scale(1.1)}
+.bgsound.in:active{transform:scale(.94)}
+.bgsound:focus-visible{outline:3px solid var(--focus); outline-offset:2px}
+
+/* ---------- latest materials ---------- */
+.sec.tight{padding-top:0}
+.mgrid>.rv{display:flex}
+.mcard{
+  flex:1; display:flex; flex-direction:column; gap:18px; padding:24px; text-decoration:none; background:var(--card); border-radius:28px;
+  box-shadow:var(--shadow); transition:transform .6s var(--ease), box-shadow .6s var(--ease); -webkit-tap-highlight-color:transparent;
+}
+.mcard:hover{transform:translateY(-6px) scale(1.012); box-shadow:var(--shadow-hover)}
+.mcard:active{transform:scale(.985)}
+.mcard .tile{width:54px; height:54px; border-radius:15px}
+.mcard .tile svg{width:26px; height:26px}
+.mcard:hover .tile{transform:scale(1.1) rotate(-3deg)}
+.mt{display:block}
+.mt .t{display:block; font-size:1.12rem; font-weight:600; letter-spacing:-.02em; line-height:1.3}
+.mt .d{display:block; margin-top:2px; font-size:.9rem; color:var(--muted)}
+.go{margin-top:auto; color:var(--accent); font-size:.95rem; font-weight:500}
+.go::after{content:"\203A"; display:inline-block; margin-left:6px; transition:transform .35s var(--ease)}
+.mcard:hover .go::after{transform:translateX(5px)}
+
+/* ---------- lessons (grouped list) ---------- */
+.container{background:var(--card); border-radius:28px; overflow:hidden; box-shadow:var(--cshadow)}
+details{display:block}
 summary{
-  list-style:none; cursor:pointer; display:flex; align-items:center; gap:12px;
-  padding:14px 14px; border-radius:12px; font:700 1.15rem "Bricolage Grotesque",Arial,sans-serif;
+  list-style:none; cursor:pointer; display:flex; align-items:center; gap:16px; user-select:none;
+  padding:22px 24px; font-size:1.3rem; font-weight:600; letter-spacing:-.025em;
+  transition:background .3s ease; -webkit-tap-highlight-color:transparent;
 }
 summary::-webkit-details-marker{display:none}
-summary:hover{background:var(--accent-soft)}
-summary:focus-visible,a:focus-visible,button:focus-visible{outline:3px solid var(--accent); outline-offset:2px}
-.chev{width:10px;height:10px;border-right:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:rotate(-45deg);transition:transform .18s;flex:none;margin:0 4px}
-details[open]>summary>.chev{transform:rotate(45deg)}
-.count{margin-left:auto; font:500 .85rem "Bricolage Grotesque",Arial,sans-serif; color:var(--muted)}
-.ico{flex:none}
-.list{margin:2px 0 8px 22px; padding-left:14px; border-left:2px dashed var(--line)}
-.item{
-  display:flex; align-items:center; gap:12px; padding:12px 12px; margin:4px 0;
-  text-decoration:none; color:var(--ink); border:1.5px solid var(--line); border-radius:10px; background:var(--bg);
+summary:hover{background:var(--hover)}
+summary:focus-visible,a:focus-visible,.btn:focus-visible,.link:focus-visible{outline:3px solid var(--focus); outline-offset:-3px; border-radius:12px}
+.count{margin-left:auto; flex:none; font-size:.88rem; font-weight:400; letter-spacing:0; color:var(--muted)}
+.chev{
+  flex:none; width:8px; height:8px; margin:0 6px 0 2px; border-right:2px solid var(--chev); border-bottom:2px solid var(--chev);
+  transform:rotate(-45deg); transition:transform .5s var(--ease), border-color .3s ease;
 }
-.item:hover{border-color:var(--accent); background:var(--accent-soft)}
-.item .t{font-weight:600}
-.item .d{display:block; font-size:.85rem; color:var(--muted)}
-.tag{margin-left:auto; flex:none; font:700 .72rem "Bricolage Grotesque",Arial,sans-serif; padding:3px 9px; border-radius:99px; background:var(--accent); color:#fff}
-:root[data-theme="dark"] .tag{color:#0f1626}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tag{color:#0f1626}}
-#latest{margin:30px 0 44px}
-.latest-h{display:flex; align-items:center; gap:8px; margin:0 0 12px; font:700 .85rem "Bricolage Grotesque",Arial,sans-serif; text-transform:uppercase; letter-spacing:.09em}
-.latest-h .dot{width:11px; height:11px; border-radius:50%; background:var(--warm); border:2px solid var(--ink)}
-.latest-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px}
-.vcard{display:block; text-decoration:none; color:var(--ink); background:var(--card); border:2px solid var(--ink); border-radius:14px; box-shadow:3px 3px 0 var(--ink); overflow:hidden; transition:transform .15s, box-shadow .15s}
-.vcard:hover{transform:translate(-2px,-2px); box-shadow:5px 5px 0 var(--ink)}
-.thumb{position:relative; display:block; aspect-ratio:16/9; background:var(--ink)}
-.thumb img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
-.play{position:absolute; left:50%; top:50%; width:52px; height:52px; margin:-26px 0 0 -26px; border-radius:50%; background:rgba(20,33,61,.82); border:2px solid #fff}
-.play::after{content:""; position:absolute; left:20px; top:14px; border-left:16px solid #fff; border-top:10px solid transparent; border-bottom:10px solid transparent}
-.vt{display:block; padding:10px 14px 12px}
-.vt .t{display:block; font-weight:600}
-.vt .d{display:block; font-size:.85rem; color:var(--muted)}
-@media (prefers-reduced-motion:reduce){.vcard{transition:none}}
-.empty{color:var(--muted); padding:8px 12px; font-style:italic}
-footer{margin-top:40px; color:var(--muted); font-size:.9rem}
-@media (prefers-reduced-motion:reduce){.chev{transition:none}}
-@media (max-width:480px){body{font-size:17px} .list{margin-left:10px}}
+.is-open>summary>.chev{transform:rotate(45deg); border-color:var(--accent)}
+.list{border-top:1px solid var(--hair); padding-left:0}
+.list.anim{overflow:hidden}
+.list>*+*{border-top:1px solid var(--hair)}
+.list .list{padding-left:22px; background:var(--nest)}
+.list summary{font-size:1.06rem; padding:16px 22px 16px 24px; letter-spacing:-.02em}
+.list .list summary{padding-left:22px}
+
+/* iOS-style icon tiles */
+.tile{
+  display:flex; align-items:center; justify-content:center; flex:none; width:40px; height:40px; border-radius:11px; color:#fff;
+  box-shadow:0 1px 2px rgba(0,0,0,.14), inset 0 1px 0 rgba(255,255,255,.28); transition:transform .5s var(--ease);
+}
+.tile.folder{background:linear-gradient(180deg,#ffd15c,#ff9f0a)}
+.tile.video{background:linear-gradient(180deg,#ff6961,#ff3b30)}
+.tile.pdf{background:linear-gradient(180deg,#52a9ff,#0a6cff)}
+.tile.image{background:linear-gradient(180deg,#5fe3a1,#1fb86a)}
+.tile .ico-folder path{fill:rgba(255,255,255,.96); stroke:none}
+summary:hover .tile,.item:hover .tile{transform:scale(1.1) rotate(-3deg)}
+.list summary .tile{width:36px; height:36px; border-radius:10px}
+
+.item{
+  display:flex; align-items:center; gap:16px; padding:14px 24px; text-decoration:none; -webkit-tap-highlight-color:transparent;
+  transition:background .3s ease;
+}
+.item:hover{background:var(--item-hover)}
+.meta{display:block; min-width:0}
+.item .t{display:block; font-size:1.04rem; font-weight:500; letter-spacing:-.018em}
+.item .d{display:block; font-size:.86rem; color:var(--muted); letter-spacing:0}
+.tag{margin-left:auto; flex:none; color:var(--accent); font-size:.95rem; font-weight:500; letter-spacing:-.01em; white-space:nowrap}
+.tag::after{content:"\203A"; display:inline-block; margin-left:6px; transition:transform .35s var(--ease)}
+.item:hover .tag::after{transform:translateX(5px)}
+.empty{color:var(--muted); padding:14px 24px; font-style:italic}
+
+footer{padding:34px 0 calc(40px + env(safe-area-inset-bottom,0px)); background:var(--alt-a); -webkit-backdrop-filter:blur(26px); backdrop-filter:blur(26px); border-top:1px solid var(--hair); text-align:center; color:var(--muted); font-size:.85rem}
+
+@media (max-width:640px){
+  body{font-size:16px}
+  .sec{padding:68px 0}
+  .hero{padding-top:calc(84px + env(safe-area-inset-top,0px)); padding-bottom:72px}
+  .container{border-radius:24px}
+  summary{padding:18px 18px; font-size:1.18rem; gap:13px}
+  .list summary{padding:14px 16px 14px 18px}
+  .item{padding:12px 18px; gap:13px}
+  .list .list{padding-left:12px}
+  .tile{width:36px; height:36px}
+  .vcard,.mcard{border-radius:24px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important; transition:none!important}
+  html{scroll-behavior:auto}
+  .rv{opacity:1; transform:none}
+  .thumb img{opacity:1}
+  .hero-in{opacity:1; filter:none; transform:none}
+}
 </style>
 </head>
 <body>
-<main>
-  <header>
-    <h1>Pratishtha XI 1.0</h1>
-    <p class="sub">Class XI lectures and practice sheets, sorted by chapter.</p>
-  </header>
 
-  <section id="latest" aria-label="Latest additions"></section>
+<header class="hero" id="top">
+  <div class="wrap hero-inner" id="heroInner">
+    <h1 class="hero-in">Pratishtha XI 1.0</h1>
+    <p class="sub hero-in" style="--d:.15s">Class XI lectures and practice sheets, sorted by chapter.</p>
+    <div class="cta hero-in" style="--d:.3s">
+      <a class="btn" id="ctaLatest" href="#latest">Watch latest</a>
+      <a class="link" href="#lessons">Browse lessons</a>
+    </div>
+  </div>
+</header>
 
-  <div class="container"><div class="inner" id="root"></div></div>
+<section id="latest" class="sec" aria-label="Latest additions">
+  <div class="wrap">
+    <div class="shead rv">
+      <p class="eyebrow"><span class="dot"></span>New</p>
+      <h2>Latest videos</h2>
+    </div>
+    <div class="latest-grid" id="latestGrid"></div>
+  </div>
+</section>
 
-  <footer>Tap a chapter to open it. Links open in a new tab.</footer>
-</main>
+<section id="latestMaterials" class="sec tight" aria-label="Latest materials">
+  <div class="wrap">
+    <div class="shead rv">
+      <p class="eyebrow"><span class="dot"></span>New</p>
+      <h2>Latest materials</h2>
+    </div>
+    <div class="latest-grid mgrid" id="materialsGrid"></div>
+  </div>
+</section>
+
+<section id="lessons" class="sec alt">
+  <div class="wrap">
+    <div class="shead rv">
+      <p class="eyebrow">Pratishtha XI 1.0</p>
+      <h2>Lessons</h2>
+    </div>
+    <div class="container rv" style="--d:.1s"><div class="inner" id="root"></div></div>
+  </div>
+</section>
+
+<footer>Tap a chapter to open it. Links open in a new tab.</footer>
 
 <script>
 /* ===== EDIT HERE: replace the "#" links with your real links =====
    type "video" -> YouTube link
    type "pdf" or "image" -> Google Drive share link ("Anyone with the link can view") */
-/* LATEST BAR (videos only): add  latest: 1  (or 2, 3 ...) to any VIDEO item to show
-   it, with its YouTube thumbnail, in the "Latest" bar at the top. Lower number = first.
-   Remove it to hide. LATEST_MAX is how many cards the bar can show. */
+/* LATEST BOXES: add  latest: 1  (or 2, 3 ...) to any item to show it at the top.
+   - VIDEO items appear in "Latest videos" (with the YouTube thumbnail).
+   - PDF / image items (DPP, notes) appear in "Latest materials".
+   Lower number = shown first. Remove "latest" to hide an item.
+   LATEST_MAX = how many video cards, LATEST_MATERIALS_MAX = how many material cards.
+   FOLDER NAMES IN LATEST BOXES: a latest card normally shows the folder name as its title
+   ("Lecture 3") and the item name in a box ("Video"). Add  plain: true  to a folder (like DPP)
+   to show the item's own name instead ("DPP 2").
+   DATE: write  date: "2026-11-06"  (year-month-day) on any video or material.
+   It shows in the latest boxes as "Lecture 3 - Video - 6 Nov 2026". Leave "" for no date. */
 var LATEST_MAX = 3;
+var LATEST_MATERIALS_MAX = 3;
+
+/* BACKGROUND VIDEOS: upload your short videos to a folder named "videos" in your GitHub repo
+   and list their file names here. After the visitor has been on the page for BG_DELAY seconds,
+   ONE of them is picked at random and plays in the background, fading in at the start and
+   fading out at the end (picture and sound). It plays once per visit.
+   SOUND: browsers only allow sound after the visitor has tapped or clicked somewhere on the page.
+   If they have, the video starts with sound. If not, it starts muted and the sound switches on
+   by itself at their first tap/click. A small speaker button lets them mute or unmute any time.
+   BG_SOUND = false keeps it silent. BG_VOLUME = loudness (0 to 1).
+   BG_OPACITY = how visible the picture is (0 to 1, lower = subtler). BG_FADE = fade length in seconds. */
+var BG_VIDEOS = [
+  "videos/bg1.mp4",
+  "videos/bg2.mp4",
+  "videos/bg3.mp4",
+  "videos/bg4.mp4",
+  "videos/bg5.mp4"
+];
+var BG_DELAY = 10;
+var BG_OPACITY = 0.4;
+var BG_FADE = 1.5;
+var BG_SOUND = true;
+var BG_VOLUME = 0.6;
 
 var COURSE = [
   { chapter: "Mathematical Induction", items: [
     { type: "folder", title: "Lecture 1", items: [
-      { type: "video", title: "Video", note: "YouTube video", latest: 3, url: "https://youtu.be/h6C5BPyWpzYs" },
-      { type: "pdf", title: "Class notes", note: "Notes (Drive)", url: "https://drive.google.com/file/d/1gbLPjvvfD3uUBJmbHS1Qb1BpzXcM06NO/view?usp=drive_link" }
+      { type: "video", title: "Video", note: "YouTube video", latest: 3, date: "", url: "https://youtu.be/h6C5BPyWpzYs" },
+      { type: "pdf", title: "Class notes", note: "Notes (Drive)", date: "", url: "https://drive.google.com/file/d/1gbLPjvvfD3uUBJmbHS1Qb1BpzXcM06NO/view?usp=drive_link" }
     ]},
     { type: "folder", title: "Lecture 2", items: [
-      { type: "video", title: "Video", note: "YouTube video", latest: 2, url: "https://youtu.be/tP0kM1YXQfE" },
-      { type: "pdf", title: "Class notes", note: "Notes (Drive)", url: "https://drive.google.com/file/d/1ZokdTVv2Vabb3uTATsCXH4qni2KyHWtw/view?usp=drive_link" }
+      { type: "video", title: "Video", note: "YouTube video", latest: 2, date: "", url: "https://youtu.be/tP0kM1YXQfE" },
+      { type: "pdf", title: "Class notes", note: "Notes (Drive)", date: "", url: "https://drive.google.com/file/d/1ZokdTVv2Vabb3uTATsCXH4qni2KyHWtw/view?usp=drive_link" }
     ]},
     { type: "folder", title: "Lecture 3", items: [
-      { type: "video", title: "Video", note: "YouTube video", latest: 1, url: "https://youtu.be/_X5qxZxQabg" },
-      { type: "pdf", title: "Class notes", note: "Notes (Drive)", url: "https://drive.google.com/file/d/1siRp9ZSgCtskmHE0-Tpq4u9e2aCudDEc/view?usp=drive_link" }
+      { type: "video", title: "Video", note: "YouTube video", latest: 1, date: "2026-11-06", url: "https://youtu.be/_X5qxZxQabg" },
+      { type: "pdf", title: "Class notes", note: "Notes (Drive)", date: "", url: "https://drive.google.com/file/d/1siRp9ZSgCtskmHE0-Tpq4u9e2aCudDEc/view?usp=drive_link" }
     ]},
-    { type: "pdf",   title: "DPP 1",     note: "Daily practice problems (Drive)", url: "https://drive.google.com/file/d/1QDNHbI_CjcjtNBsfL6WWvr3PyylPDFWO/view?usp=drive_link" },
-    { type: "pdf",   title: "DPP 2",     note: "Daily practice problems (Drive)", url: "https://drive.google.com/file/d/1vNSzaVps7SE27s5Ig_9XJtVHXfZenmmC/view?usp=drive_link" }
+    { type: "folder", title: "DPP", plain: true, items: [
+      { type: "pdf",   title: "DPP 1",     note: "Daily practice problems (Drive)", latest: 2, date: "", url: "https://drive.google.com/file/d/1QDNHbI_CjcjtNBsfL6WWvr3PyylPDFWO/view?usp=drive_link" },
+      { type: "pdf",   title: "DPP 2",     note: "Daily practice problems (Drive)", latest: 1, date: "", url: "https://drive.google.com/file/d/1vNSzaVps7SE27s5Ig_9XJtVHXfZenmmC/view?usp=drive_link" },
+      { type: "folder", title: "DPP Solutions", plain: true, items: [
+        /* Add solution files here later, for example:
+           { type: "pdf", title: "DPP 1 Solutions", note: "Solutions (Drive)", date: "", url: "PASTE-DRIVE-LINK" } */
+      ]}
+    ]}
   ]}
   /* To add a chapter, copy the block above and add a comma between them. */
 ];
 /* ================================================================= */
 
 var ICONS = {
-  video: '<svg class="ico" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M10 9.2v5.6l4.8-2.8z" fill="currentColor"/></svg>',
-  pdf: '<svg class="ico" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 2.5h8l5 5v14H6z"/><path d="M14 2.5v5h5"/><path d="M9 13h7M9 17h7"/></svg>',
-  image: '<svg class="ico" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="M4 18l5-5 4 4 3-3 4 4"/></svg>',
-  folder: '<svg class="ico" width="26" height="26" viewBox="0 0 24 24" fill="#f2b705" stroke="#14213d" stroke-width="2" stroke-linejoin="round"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4.6l2 2.5h8.4A1.5 1.5 0 0 1 21 9v9.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></svg>'
+  video: '<svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M10 9.2v5.6l4.8-2.8z" fill="currentColor"/></svg>',
+  pdf: '<svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M6 2.5h8l5 5v14H6z"/><path d="M14 2.5v5h5"/><path d="M9 13h7M9 17h7"/></svg>',
+  image: '<svg class="ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="M4 18l5-5 4 4 3-3 4 4"/></svg>',
+  folder: '<svg class="ico ico-folder" width="22" height="22" viewBox="0 0 24 24" stroke-linejoin="round"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4.6l2 2.5h8.4A1.5 1.5 0 0 1 21 9v9.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></svg>'
 };
 var TAGS = { video: "Watch", pdf: "PDF", image: "Image" };
 
 function el(tag, cls, html){ var e = document.createElement(tag); if(cls) e.className = cls; if(html != null) e.innerHTML = html; return e; }
 function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+
+/* ---- smooth open / close for folders ---- */
+var EASE = "cubic-bezier(.22,.8,.24,1)";
+var REDUCE = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function wire(d){
+  var sum = d.firstElementChild, box = d.lastElementChild;
+  if(d.open) d.classList.add("is-open");
+  sum.addEventListener("click", function(e){
+    e.preventDefault();
+    if(d._a){ d._a.cancel(); d._a = null; }
+    var opening = !d.classList.contains("is-open");
+    d.classList.toggle("is-open", opening);
+    if(REDUCE || !box.animate){ d.open = opening; return; }
+    box.classList.add("anim");
+    var h;
+    if(opening){
+      d.open = true;
+      h = box.offsetHeight;
+      d._a = box.animate([{height:"0px", opacity:0},{height:h + "px", opacity:1}], {duration:520, easing:EASE});
+    } else {
+      h = box.offsetHeight;
+      d._a = box.animate([{height:h + "px", opacity:1},{height:"0px", opacity:0}], {duration:400, easing:EASE});
+    }
+    var anim = d._a;
+    anim.onfinish = function(){
+      box.classList.remove("anim");
+      if(!opening) d.open = false;
+      if(d._a === anim) d._a = null;
+    };
+  });
+}
 
 var root = document.getElementById("root");
 function build(node, open){
@@ -156,56 +395,223 @@ function build(node, open){
   if(open) d.open = true;
   var n = node.items.length;
   d.appendChild(el("summary", null,
-    '<span class="chev"></span>' + ICONS.folder + '<span>' + esc(node.chapter || node.title) + '</span>' +
-    '<span class="count">' + n + (n === 1 ? " item" : " items") + '</span>'));
+    '<span class="tile folder">' + ICONS.folder + '</span><span>' + esc(node.chapter || node.title) + '</span>' +
+    '<span class="count">' + n + (n === 1 ? " item" : " items") + '</span><span class="chev"></span>'));
   var list = el("div", "list");
   if(!n) list.appendChild(el("div", "empty", "Nothing here yet."));
   node.items.forEach(function(it){
     if(it.type === "folder"){ list.appendChild(build(it, false)); return; }
-    var a = el("a", "item",
-      (ICONS[it.type] || ICONS.pdf) +
-      '<span><span class="t">' + esc(it.title) + '</span><span class="d">' + esc(it.note || "") + '</span></span>' +
+    var a = el("a", "item " + it.type,
+      '<span class="tile ' + it.type + '">' + (ICONS[it.type] || ICONS.pdf) + '</span>' +
+      '<span class="meta"><span class="t">' + esc(it.title) + '</span><span class="d">' + esc(it.note || "") + '</span></span>' +
       '<span class="tag">' + (TAGS[it.type] || "Open") + '</span>');
     a.href = it.url; a.target = "_blank"; a.rel = "noopener noreferrer";
     list.appendChild(a);
   });
   d.appendChild(list);
+  wire(d);
   return d;
 }
 COURSE.forEach(function(ch, i){ root.appendChild(build(ch, i === 0)); });
 
-/* ---- Latest bar (videos only) ---- */
+/* ---- Latest videos + Latest materials ---- */
+var MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function fmtDate(s){
+  if(!s) return "";
+  var m = String(s).match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+  return m ? (+m[3]) + " " + MONTHS[+m[2] - 1] + " " + m[1] : String(s);
+}
 function ytId(u){
   var m = String(u).match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);
   return m ? m[1] : null;
 }
-var found = [];
-function collect(nodes, path){
+var vids = [], mats = [];
+function collect(nodes, path, plain){
   nodes.forEach(function(n){
-    if(n.type === "folder"){ collect(n.items, path.concat(n.title)); }
-    else if(n.type === "video" && n.latest){ found.push({ it: n, path: path }); }
+    if(n.type === "folder"){ collect(n.items, path.concat(n.title), !!n.plain); }
+    else if(n.latest){ (n.type === "video" ? vids : mats).push({ it: n, path: path, plain: plain }); }
   });
 }
 COURSE.forEach(function(ch){ collect(ch.items, [ch.chapter]); });
-found.sort(function(a, b){ return a.it.latest - b.it.latest; });
-found = found.slice(0, LATEST_MAX);
+function byRank(a, b){ return a.it.latest - b.it.latest; }
+vids.sort(byRank); mats.sort(byRank);
+vids = vids.slice(0, LATEST_MAX);
+mats = mats.slice(0, LATEST_MATERIALS_MAX);
 
-if(found.length){
-  var box = document.getElementById("latest");
-  box.appendChild(el("h2", "latest-h", '<span class="dot"></span>Latest videos'));
-  var grid = el("div", "latest-grid");
-  found.forEach(function(f){
-    var it = f.it, folder = f.path.length > 1 ? f.path[f.path.length - 1] : "";
-    var id = ytId(it.url);
-    var img = id ? '<img src="https://img.youtube.com/vi/' + id + '/hqdefault.jpg" alt="" loading="lazy" onerror="this.remove()">' : "";
+/* Title = "Lecture 3" (or "DPP 2"); the type ("Video", "Class notes") and the date are shown as small boxes */
+function cardParts(f){
+  var it = f.it, folder = (f.path.length > 1 && !f.plain) ? f.path[f.path.length - 1] : "", chips = [];
+  if(folder) chips.push('<span class="chip k">' + esc(it.title) + '</span>');
+  var dt = fmtDate(it.date);
+  if(dt) chips.push('<span class="chip dt">' + esc(dt) + '</span>');
+  return { text: folder || it.title, chips: chips.length ? '<span class="chips">' + chips.join("") + '</span>' : "" };
+}
+
+if(vids.length){
+  var grid = document.getElementById("latestGrid");
+  vids.forEach(function(f, idx){
+    var it = f.it, id = ytId(it.url), p = cardParts(f);
+    var img = id ? '<img src="https://img.youtube.com/vi/' + id + '/hqdefault.jpg" alt="" loading="lazy" onload="this.classList.add(\'in\')" onerror="this.remove()">' : "";
+    var wrap = el("div", "rv");
+    wrap.style.setProperty("--d", (idx * 0.12) + "s");
     var a = el("a", "vcard",
       '<span class="thumb">' + img + '<span class="play"></span></span>' +
-      '<span class="vt"><span class="t">' + esc(folder ? folder + " \u00b7 " + it.title : it.title) + '</span><span class="d">' + esc(f.path[0]) + '</span></span>');
+      '<span class="vt"><span class="t">' + esc(p.text) + '</span><span class="d">' + esc(f.path[0]) + '</span>' + p.chips + '</span>');
     a.href = it.url; a.target = "_blank"; a.rel = "noopener noreferrer";
-    grid.appendChild(a);
+    wrap.appendChild(a);
+    grid.appendChild(wrap);
   });
-  box.appendChild(grid);
+} else {
+  document.getElementById("latest").style.display = "none";
+  document.getElementById("ctaLatest").style.display = "none";
 }
+
+if(mats.length){
+  var mgrid = document.getElementById("materialsGrid");
+  mats.forEach(function(f, idx){
+    var it = f.it, p = cardParts(f);
+    var wrap = el("div", "rv");
+    wrap.style.setProperty("--d", (idx * 0.12) + "s");
+    var a = el("a", "mcard",
+      '<span class="tile ' + it.type + '">' + (ICONS[it.type] || ICONS.pdf) + '</span>' +
+      '<span class="mt"><span class="t">' + esc(p.text) + '</span><span class="d">' + esc(f.path[0]) + '</span>' + p.chips + '</span>' +
+      '<span class="go">View ' + (TAGS[it.type] || "file") + '</span>');
+    a.href = it.url; a.target = "_blank"; a.rel = "noopener noreferrer";
+    wrap.appendChild(a);
+    mgrid.appendChild(wrap);
+  });
+} else {
+  document.getElementById("latestMaterials").style.display = "none";
+}
+
+/* ---- scroll reveal ---- */
+var rvEls = document.querySelectorAll(".rv");
+if("IntersectionObserver" in window && !REDUCE){
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.05, rootMargin: "0px 0px -6% 0px" });
+  rvEls.forEach(function(n){ io.observe(n); });
+} else {
+  rvEls.forEach(function(n){ n.classList.add("in"); });
+}
+
+/* ---- hero parallax fade ---- */
+var heroInner = document.getElementById("heroInner"), ticking = false;
+function onScroll(){
+  var y = window.scrollY || 0;
+  if(!REDUCE && y < 900){
+    heroInner.style.transform = "translate3d(0," + (y * 0.2) + "px,0) scale(" + (1 - Math.min(y, 600) / 5000) + ")";
+    heroInner.style.opacity = Math.max(0, 1 - y / 560);
+  }
+  ticking = false;
+}
+window.addEventListener("scroll", function(){
+  if(!ticking){ ticking = true; requestAnimationFrame(onScroll); }
+}, { passive: true });
+onScroll();
+
+/* ---- random background video (with sound) after BG_DELAY seconds ---- */
+(function(){
+  if(!BG_VIDEOS.length || REDUCE) return;
+  var conn = navigator.connection;
+  if(conn && conn.saveData) return;              /* respect data-saver mode */
+  var pool = BG_VIDEOS.slice().sort(function(){ return Math.random() - 0.5; });
+  var touched = false, userMuted = false, current = null, btn = null;
+
+  var ON  = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+  var OFF = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M22 9l-6 6M16 9l6 6"/></svg>';
+
+  function sync(){
+    if(!btn || !current) return;
+    btn.innerHTML = current.muted ? OFF : ON;
+    btn.setAttribute("aria-label", current.muted ? "Turn video sound on" : "Turn video sound off");
+  }
+  function hasActivation(){
+    return touched || (navigator.userActivation && navigator.userActivation.hasBeenActive);
+  }
+  /* first tap / click / key press: switch the sound on if it started muted */
+  function onGesture(){
+    touched = true;
+    if(BG_SOUND && current && current.muted && !userMuted){
+      current.muted = false;
+      var p = current.play(); if(p && p.catch) p.catch(function(){});
+      sync();
+    }
+  }
+  ["pointerdown","pointerup","touchend","keydown"].forEach(function(ev){
+    window.addEventListener(ev, onGesture, { passive: true, capture: true });
+  });
+
+  function makeBtn(v){
+    btn = document.createElement("button");
+    btn.type = "button"; btn.className = "bgsound";
+    btn.addEventListener("click", function(e){
+      e.stopPropagation();
+      v.muted = !v.muted; userMuted = v.muted; sync();
+    });
+    document.body.appendChild(btn);
+    sync();
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ if(btn) btn.classList.add("in"); }); });
+  }
+
+  function start(){
+    if(document.hidden){
+      document.addEventListener("visibilitychange", function once(){
+        if(!document.hidden){ document.removeEventListener("visibilitychange", once); start(); }
+      });
+      return;
+    }
+    next();
+  }
+  function next(){
+    var src = pool.pop();
+    if(!src) return;
+    var v = document.createElement("video"), raf = 0;
+    v.className = "bgv";
+    v.muted = !(BG_SOUND && hasActivation());
+    v.playsInline = true; v.preload = "auto";
+    v.setAttribute("playsinline", ""); v.setAttribute("aria-hidden", "true");
+    v.tabIndex = -1; v.disablePictureInPicture = true;
+    try{ v.volume = 0; }catch(e){}
+    v.src = src;
+    current = v;
+
+    function frame(){
+      var d = v.duration, t = v.currentTime;
+      if(d && isFinite(d)){
+        var f = Math.max(0.1, Math.min(BG_FADE, d / 2));
+        var k = Math.max(0, Math.min(1, t / f, (d - t) / f));   /* fade in at start, fade out at end */
+        v.style.opacity = String(k * BG_OPACITY);
+        try{ v.volume = Math.max(0, Math.min(1, k * BG_VOLUME)); }catch(e){}
+      }
+      if(!v.ended && !v.paused) raf = requestAnimationFrame(frame);
+    }
+    function done(){
+      cancelAnimationFrame(raf);
+      if(v.parentNode) v.parentNode.removeChild(v);
+      if(btn){ var b = btn; btn = null; b.classList.remove("in"); setTimeout(function(){ if(b.parentNode) b.parentNode.removeChild(b); }, 700); }
+      if(current === v) current = null;
+    }
+
+    v.addEventListener("playing", function(){
+      if(!btn && BG_SOUND) makeBtn(v);
+      cancelAnimationFrame(raf); raf = requestAnimationFrame(frame);
+    });
+    v.addEventListener("ended", done);
+    v.addEventListener("error", function(){ done(); next(); });   /* missing file: try another one */
+    document.body.appendChild(v);
+    var p = v.play();
+    if(p && p.catch) p.catch(function(){
+      if(!v.muted){                       /* sound was blocked: fall back to silent playback */
+        v.muted = true; sync();
+        var q = v.play(); if(q && q.catch) q.catch(done);
+      } else { done(); }
+    });
+  }
+  setTimeout(start, BG_DELAY * 1000);
+})();
 </script>
 <script data-goatcounter="https://hunttt61.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
