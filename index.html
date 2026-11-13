@@ -450,7 +450,7 @@ function build(node, open){
   wire(d);
   return d;
 }
-COURSE.forEach(function(ch, i){ root.appendChild(build(ch, i === 0)); });
+COURSE.forEach(function(ch, i){ root.appendChild(build(ch, false)); });
 
 /* ---- Latest videos + Latest materials ---- */
 var MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
